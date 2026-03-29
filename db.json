@@ -1,0 +1,95 @@
+{
+  "schedules": [
+    {
+      "id": 1,
+      "date": "2026-03-29",
+      "weekday": "土",
+      "tag": "ふれあい大会",
+      "name": "vs 小寺少年団野球部",
+      "type": "league",
+      "venue": "小束山小学校（14:00〜）",
+      "status": "today"
+    }
+  ],
+  "tournaments": [
+    {
+      "id": 1,
+      "name": "ふれあい大会",
+      "type": "league",
+      "format": "リーグ戦",
+      "period": "3月〜",
+      "status": "ongoing",
+      "hostType": "boysclub",
+      "organizer": "少年団野球リーグ（神戸市全体）",
+      "currentStatus": "第3節終了 / kzy 2位",
+      "teamList": ["kzy", "小寺少年団野球部", "北須磨ファイターズ", "多聞台少年野球"],
+      "rules": ["6回制・80分", "タイブレークあり", "投球数制限あり"]
+    },
+    {
+      "id": 2,
+      "name": "親善大会",
+      "type": "tournament",
+      "format": "トーナメント戦",
+      "period": "9月〜",
+      "status": "before",
+      "hostType": "boysclub",
+      "organizer": "少年団野球リーグ（垂水地区）",
+      "currentStatus": "組み合わせ発表待ち",
+      "teamList": [],
+      "rules": ["大会要項確定前"]
+    },
+    {
+      "id": 3,
+      "name": "ナゲセケンコー杯",
+      "type": "tournament",
+      "format": "トーナメント戦",
+      "period": "3月〜",
+      "status": "before",
+      "hostType": "other",
+      "organizer": "KSBL",
+      "currentStatus": "参加受付中",
+      "teamList": ["kzy", "Aチーム", "Bチーム", "Cチーム"],
+      "rules": ["トーナメント制", "球数制限あり"]
+    },
+    {
+      "id": 4,
+      "name": "前期Jr.リーグ",
+      "type": "league",
+      "format": "リーグ戦",
+      "period": "3月〜",
+      "status": "ongoing",
+      "hostType": "other",
+      "organizer": "北神戸少年野球連盟",
+      "currentStatus": "2試合消化 / 暫定3位",
+      "teamList": ["kzy Jr.", "Dチーム", "Eチーム", "Fチーム"],
+      "rules": ["5回制", "勝点制"]
+    },
+    {
+      "id": 5,
+      "name": "西区ジュニアリーグ",
+      "type": "league",
+      "format": "リーグ戦",
+      "period": "",
+      "status": "before",
+      "hostType": "other",
+      "organizer": "",
+      "currentStatus": "情報登録前",
+      "teamList": [],
+      "rules": []
+    },
+    {
+      "id": 6,
+      "name": "ジュニア大会",
+      "type": "tournament",
+      "format": "トーナメント戦",
+      "period": "10月〜",
+      "status": "finished",
+      "hostType": "boysclub",
+      "organizer": "少年団野球リーグ（垂水地区）",
+      "currentStatus": "大会終了 / ベスト4",
+      "teamList": ["kzy Jr.", "Gチーム", "Hチーム", "Iチーム"],
+      "rules": ["トーナメント戦", "5回制"]
+    }
+  ],
+  "results": []
+}
