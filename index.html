@@ -322,13 +322,15 @@ function renderTournaments(){
     html += `
       <div class="card">
         <div class="card-body">
-          <div class="tour-name">${esc(t.name)}</div>
-          <div class="tour-pills">
-            <span class="pill ${tm.cls}">${tm.label}</span>
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px">
+            <div class="tour-name" style="margin-bottom:0">${esc(t.name)}</div>
             <span class="pill ${sm.cls}">${sm.label}</span>
+          </div>
+          <div class="tour-pills">
             <span class="pill ${hm.cls}">${hm.label}</span>
           </div>
           ${t.period ? `<div class="tour-meta"><span class="tour-meta-label">開催期間</span><span>${esc(t.period)}</span></div>` : ''}
+          <div class="tour-meta"><span class="tour-meta-label">試合形式</span><span>${tm.label}</span></div>
           <div class="tour-meta"><span class="tour-meta-label">参加チーム</span><span>${teamCount}チーム</span></div>
           <div class="tour-meta"><span class="tour-meta-label">ルール</span><span>${ruleCount ? `${ruleCount}件登録` : '未登録'}</span></div>
           <div class="tour-meta"><span class="tour-meta-label">主催</span><span>${t.organizer ? esc(t.organizer) : '未登録'}</span></div>
@@ -396,11 +398,14 @@ function openDetail(id){
 
   openSheet(t.name, `
     <div class="detail-block">
-      <div class="tour-pills">
-        <span class="pill ${tm.cls}">${tm.label}</span>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px">
+        <div style="font-size:18px;font-weight:800">${esc(t.name)}</div>
         <span class="pill ${sm.cls}">${sm.label}</span>
+      </div>
+      <div class="tour-pills">
         <span class="pill ${hm.cls}">${hm.label}</span>
       </div>
+      <div class="detail-item"><strong>試合形式：</strong>${tm.label}</div>
     </div>
     <div class="detail-block">
       <div class="detail-title">現在の状況</div>
