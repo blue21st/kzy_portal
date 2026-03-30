@@ -320,25 +320,55 @@ var isAdmin=false,isLoggedIn=false,editingId=null,detailTour=null,detailTab='tea
 var DB={schedules:[],tournaments:[],results:[]};
 
 function initDB(){DB.schedules=JSON.parse(JSON.stringify(INIT.schedules));DB.tournaments=JSON.parse(JSON.stringify(INIT.tournaments));DB.results=JSON.parse(JSON.stringify(INIT.results));}
-var DATA_VER=1;
-function stSave(){
-  try{if(window.storage)window.storage.set('kzy:db',JSON.stringify({ver:DATA_VER,schedules:DB.schedules,tournaments:DB.tournaments,results:DB.results}));}catch(e){}
+// ━━━ SUPABASE ━━━
+var SB_URL='https://zorxexynepvbaajblsfm.supabase.co';
+var SB_KEY='sb_publishable_bInFKzUqj08n6Du7w7H0zw_XC_k_HzW';
+
+function sbFetch(method, body){
+  return fetch(SB_URL+'/rest/v1/kzy_data?id=eq.main', {
+    method: method,
+    headers: {
+      'apikey': SB_KEY,
+      'Authorization': 'Bearer '+SB_KEY,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=minimal'
+    },
+    body: body ? JSON.stringify(body) : undefined
+  });
 }
+
+function stSave(){
+  sbFetch('PATCH', {
+    schedules: DB.schedules,
+    tournaments: DB.tournaments,
+    results: DB.results,
+    updated_at: new Date().toISOString()
+  }).catch(function(e){console.error('save error',e);});
+}
+
 function stLoad(cb){
-  try{
-    if(!window.storage){initDB();cb();return;}
-    Promise.race([window.storage.get('kzy:db'),new Promise(function(r){setTimeout(function(){r(null);},2000);})]).then(function(r){
-      if(r&&r.value){
-        var L=JSON.parse(r.value);
-        if(L.ver&&L.ver>=DATA_VER){
-          DB.schedules=L.schedules&&L.schedules.length?L.schedules:INIT.schedules;
-          DB.tournaments=L.tournaments&&L.tournaments.length?L.tournaments:INIT.tournaments;
-          DB.results=L.results||INIT.results;
-        }else{initDB();stSave();}
-      }else{initDB();}
-      cb();
-    }).catch(function(){initDB();cb();});
-  }catch(e){initDB();cb();}
+  fetch(SB_URL+'/rest/v1/kzy_data?id=eq.main&select=schedules,tournaments,results', {
+    headers:{
+      'apikey': SB_KEY,
+      'Authorization': 'Bearer '+SB_KEY
+    }
+  }).then(function(r){return r.json();})
+  .then(function(data){
+    if(data&&data[0]){
+      var L=data[0];
+      DB.schedules=L.schedules&&L.schedules.length?L.schedules:INIT.schedules;
+      DB.tournaments=L.tournaments&&L.tournaments.length?L.tournaments:INIT.tournaments;
+      DB.results=L.results||INIT.results;
+    } else {
+      initDB();
+      stSave();
+    }
+    cb();
+  }).catch(function(e){
+    console.error('load error',e);
+    initDB();
+    cb();
+  });
 }
 
 // ━━━ HELPERS ━━━
@@ -348,15 +378,20 @@ function tpill(t){if(t==='tournament')return'<span class="pill pg">大会</span>
 function fpill(f){return f?'<span class="pill pp">'+esc(f)+'</span>':'';}
 
 // ━━━ AUTH ━━━
+var dbLoaded=false;
 function tryLogin(){
   var pw=document.getElementById('loginPw').value;
   if(pw==='kzy'){
     isLoggedIn=true;
     isAdmin=true;
-    stLoad(function(){renderAll();});
     document.getElementById('loginScreen').style.display='none';
     document.getElementById('menuScreen').style.display='flex';
-    document.getElementById('menuSub').textContent=isAdmin?'管理者としてログイン中':'父兄としてログイン中';
+    document.getElementById('menuSub').textContent='管理者としてログイン中';
+    if(!dbLoaded){
+      stLoad(function(){dbLoaded=true;renderAll();});
+    } else {
+      renderAll();
+    }
   } else {
     var e=document.getElementById('loginErr');e.style.display='block';
     setTimeout(function(){e.style.display='none';},2000);
