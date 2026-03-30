@@ -463,7 +463,8 @@ function renderInfo(){
   // SCHEDULES
   var sh='';
   if(!DB.schedules.length)sh='<div class="em">⚾ スケジュールがありません</div>';
-  DB.schedules.forEach(function(s){
+  var sortedSchedules=DB.schedules.slice().sort(function(a,b){return (b.date||"").localeCompare(a.date||"");});
+  sortedSchedules.forEach(function(s){
     var d=s.date?s.date.slice(5).replace('-','/'):'' ;
     sh+='<div class="card'+(s.status==='today'?' td':'')+'">'+
       (s.status==='today'?'<div class="tbar">📣 本日開催</div>':'')+
